@@ -1,4 +1,9 @@
+import funciones
 import tkinter as tk
+
+# Variables
+
+texto_label = ''
 
 # ventana
 
@@ -10,15 +15,20 @@ win.geometry('300x300')
 
 # Label que resive los valores
 
-label = tk.Entry(win, font=('Arial', 20), justify='right')
+label = tk.Label(win, font=('Arial', 20), justify='right', text=texto_label)
 label.grid(row=0,  column=0, columnspan=4, rowspan=2, padx=10,
            pady=10, sticky='SNEW')
+
+
+def Presionar(simbolo):
+    label['text'] += simbolo
+
 
 # Botones
 
 # Raiz
 
-btn_root = tk.Button(win, text='√')
+btn_root = tk.Button(win, text='√', command=lambda: Presionar('√'))
 btn_root.grid(row=3, column=0, padx=5, pady=5, sticky='SNEW')
 
 # Porcentaje
