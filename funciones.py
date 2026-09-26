@@ -1,5 +1,3 @@
-datos = list()
-operadores = list()
 texto = ""
 numeros = ("1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
 operadores = ("√", "%", "÷", "X", "-", "+", "^", ".")
@@ -27,7 +25,10 @@ def logica_precionar(simbolo):
 
     if simbolo == "√":
 
-        validacion_operador(simbolo)
+        if len(texto) == 0:
+            texto += simbolo
+        elif texto[-1] != ".":
+            texto += simbolo
 
     elif simbolo == "%":
 
@@ -38,6 +39,10 @@ def logica_precionar(simbolo):
         if len(texto) > 0:
 
             texto = texto[:-1]
+
+            if len(texto) == 1 and texto[0] == "0":
+
+                texto = texto[:-1]
 
     elif simbolo == "÷":
 
@@ -61,7 +66,13 @@ def logica_precionar(simbolo):
 
     elif simbolo == "=":
 
-        print("Condiciones de ")
+        datos = list()
+        operadores = list()
+
+        for i in range(len(texto)):
+
+            if texto[i] in operadores:
+                print("Hola")
 
     elif simbolo == ".":
 
@@ -72,9 +83,17 @@ def logica_precionar(simbolo):
         if texto[-1] in numeros:
 
             texto += "."
+    elif simbolo == "0":
+
+        if len(texto) != 1:
+
+            texto += "0"
 
     else:
 
         texto += simbolo
+
+        if len(texto) == 2 and texto[0] == "0":
+            texto = texto[1:]
 
     return texto
