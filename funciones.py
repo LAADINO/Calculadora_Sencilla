@@ -1,5 +1,11 @@
 texto = ""
 operadores = ("%", "÷", "X", "-", "+", "^")
+op_basicos = (
+    "÷",
+    "X",
+    "-",
+    "+",
+)
 
 
 def validacion_operador(simbolo):
@@ -27,11 +33,12 @@ def logica_precionar(simbolo):
         if len(texto) == 0:
             texto = "0√"
         else:
-            texto += "√"
+            texto += simbolo
 
     elif simbolo == "%":
-
-        validacion_operador(simbolo)
+        if any(op in texto for op in op_basicos):
+            if texto[-1] in op_basicos or texto[-1].isdigit():
+                texto += simbolo
 
     elif simbolo == "⌫":
 
@@ -68,31 +75,56 @@ def logica_precionar(simbolo):
         print("Hola")
 
     elif simbolo == ".":
-        if "." in texto and texto[-1] not in operadores:
+        if simbolo in texto and texto[-1] not in operadores:
             for i, c in reversed(list(enumerate(texto))):
                 if c in operadores:
                     numero = texto[i + 1 :]
                     print(numero)
-                    if "." not in numero:
-                        texto += "."
+                    if simbolo not in numero:
+                        texto += simbolo
         elif len(texto) == 0:
             texto += "0."
         elif texto[-1] in operadores:
             texto += "0."
         elif texto[-1].isdigit():
-            texto += "."
+            texto += simbolo
     elif simbolo == "0":
-
-        if len(texto) != 1:
-
-            texto += "0"
+        if len(texto) != 0:
+            if texto[-1] == "√":
+                for c in reversed(texto):
+                    if c == "√":
+                        texto = texto[:-1]
+                        texto += simbolo
+                    else:
+                        break
+            elif len(texto) != 1:
+                if texto[-1].isdigit():
+                    texto += simbolo
+        else:
+            if len(texto) != 1:
+                if texto[-1].isdigit():
+                    texto += simbolo
 
     else:
 
-        texto += simbolo
+        if len(texto) != 0:
+            if texto[-1] == "√":
+                for c in reversed(texto):
+                    if c == "√":
+                        texto = texto[:-1]
+                    else:
+                        break
 
-        if len(texto) == 2 and texto[0] == "0":
-            texto = texto[1:]
+            else:
+                texto += simbolo
+
+                if len(texto) == 2 and texto[0] == "0":
+                    texto = texto[1:]
+        else:
+            texto += simbolo
+
+            if len(texto) == 2 and texto[0] == "0":
+                texto = texto[1:]
 
     print(texto)
 
