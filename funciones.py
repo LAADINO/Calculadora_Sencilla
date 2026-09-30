@@ -1,6 +1,10 @@
 texto = ""
-numeros = ("1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
-operadores = ("√", "%", "÷", "X", "-", "+", "^", ".")
+operadores = ("√", "%", "÷", "X", "-", "+", "^")
+
+
+def resolver(cadena):
+
+    print("hola")
 
 
 def validacion_operador(simbolo):
@@ -12,7 +16,7 @@ def validacion_operador(simbolo):
         texto = "0"
         texto += simbolo
 
-    elif texto[-1] in operadores:
+    elif texto[-1] in operadores or texto[-1] == ".":
         texto = texto[:-1] + simbolo
 
     else:
@@ -25,10 +29,7 @@ def logica_precionar(simbolo):
 
     if simbolo == "√":
 
-        if len(texto) == 0:
-            texto += simbolo
-        elif texto[-1] != ".":
-            texto += simbolo
+        validacion_operador(simbolo)
 
     elif simbolo == "%":
 
@@ -66,22 +67,21 @@ def logica_precionar(simbolo):
 
     elif simbolo == "=":
 
-        datos = list()
-        operadores = list()
-
-        for i in range(len(texto)):
-
-            if texto[i] in operadores:
-                print("Hola")
+        print("Hola")
 
     elif simbolo == ".":
+        if "." in texto and texto[-1] not in operadores:
+            for i, c in reversed(list(enumerate(texto))):
+                if c in operadores:
+                    numero = texto[-i:]
+                    if "." not in numero:
+                        texto += "."
 
-        if len(texto) == 0:
-
-            texto = "0."
-
-        if texto[-1] in numeros:
-
+        elif len(texto) == 0:
+            texto += "0."
+        elif texto[-1] in operadores:
+            texto += "0."
+        elif texto[-1].isdigit():
             texto += "."
     elif simbolo == "0":
 
@@ -95,5 +95,7 @@ def logica_precionar(simbolo):
 
         if len(texto) == 2 and texto[0] == "0":
             texto = texto[1:]
+
+    print(texto)
 
     return texto
