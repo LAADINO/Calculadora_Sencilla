@@ -1,10 +1,5 @@
 texto = ""
-operadores = ("√", "%", "÷", "X", "-", "+", "^")
-
-
-def resolver(cadena):
-
-    print("hola")
+operadores = ("%", "÷", "X", "-", "+", "^")
 
 
 def validacion_operador(simbolo):
@@ -29,7 +24,10 @@ def logica_precionar(simbolo):
 
     if simbolo == "√":
 
-        validacion_operador(simbolo)
+        if len(texto) == 0:
+            texto = "0√"
+        else:
+            texto += "√"
 
     elif simbolo == "%":
 
@@ -73,10 +71,10 @@ def logica_precionar(simbolo):
         if "." in texto and texto[-1] not in operadores:
             for i, c in reversed(list(enumerate(texto))):
                 if c in operadores:
-                    numero = texto[-i:]
+                    numero = texto[i + 1 :]
+                    print(numero)
                     if "." not in numero:
                         texto += "."
-
         elif len(texto) == 0:
             texto += "0."
         elif texto[-1] in operadores:
