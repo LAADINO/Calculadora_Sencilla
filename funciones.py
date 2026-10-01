@@ -77,11 +77,45 @@ def logica_precionar(simbolo):
 
     elif simbolo == "=":
 
+        n1 = ""
+        n2 = ""
+
         if "√√" in texto:
 
             print(f"hay un √√ en la ecuacion {texto}")
         else:
-            print("no tiene √√")
+            if texto.endswith(op_basicos):
+                texto = texto[:-1]
+
+            for i, c in enumerate(texto):
+                if c == "√":
+
+                    n1 = ""
+
+                    if texto[i - 1] in op_basicos:
+                        op = texto[i - 1]
+                        j = i - 2
+                    else:
+                        op = ""
+                        j = i - 1
+
+                    while j >= 0 and (texto[j].isdigit() or texto[j] == "."):
+                        n1 = texto[j] + n1
+                        texto = texto[:j] + texto[i + 1 :]
+                        j -= 1
+
+                    n1 = float(n1)
+                    n1_aux = str(int(n1))
+                    n1 = str(round((n1 ** (1 / 2)), 4))
+                    if op.endswith(op_basicos):
+                        texto = texto[:i] + n1_aux + op + n1 + texto[i + 1 :]
+                    else:
+                        texto = (
+                            texto[:i] + str(round((n1 ** (1 / 2)), 4)) + texto[i + 1 :]
+                        )
+
+                elif c == "^":
+                    print("Entro a ^")
 
     elif simbolo == ".":
         if simbolo in texto and texto[-1] not in operadores:
