@@ -8,6 +8,11 @@ op_basicos = (
 )
 
 
+def resolver():
+
+    print("HOLA")
+
+
 def validacion_operador(simbolo):
 
     global texto
@@ -79,7 +84,6 @@ def logica_precionar(simbolo):
             for i, c in reversed(list(enumerate(texto))):
                 if c in operadores:
                     numero = texto[i + 1 :]
-                    print(numero)
                     if simbolo not in numero:
                         texto += simbolo
         elif len(texto) == 0:
@@ -89,16 +93,22 @@ def logica_precionar(simbolo):
         elif texto[-1].isdigit():
             texto += simbolo
     elif simbolo == "0":
+
         if len(texto) != 0:
-            if texto[-1] == "√":
+
+            if texto[-1] in operadores:
+                texto += simbolo
+            elif texto[-1].isdigit and texto[-1] != simbolo:
+                texto += simbolo
+            elif texto[-1] == "√":
                 for c in reversed(texto):
                     if c == "√":
                         texto = texto[:-1]
-                        texto += simbolo
                     else:
                         break
+                texto += simbolo
             elif len(texto) != 1:
-                if texto[-1].isdigit():
+                if texto[-1].isdigit() and texto[-1] != simbolo:
                     texto += simbolo
         else:
             if len(texto) != 1:
@@ -114,6 +124,7 @@ def logica_precionar(simbolo):
                         texto = texto[:-1]
                     else:
                         break
+                texto += simbolo
 
             else:
                 texto += simbolo
@@ -121,6 +132,8 @@ def logica_precionar(simbolo):
                 if len(texto) == 2 and texto[0] == "0":
                     texto = texto[1:]
         else:
+
+            print(len(texto))
             texto += simbolo
 
             if len(texto) == 2 and texto[0] == "0":
