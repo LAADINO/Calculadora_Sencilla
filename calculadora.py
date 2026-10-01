@@ -18,6 +18,42 @@ win.geometry("300x300")
 label = tk.Entry(win, font=("Arial", 20), justify="right", text=text_label)
 label.grid(row=0, column=0, columnspan=4, rowspan=2, padx=10, pady=10, sticky="SNE")
 
+label.bind("<Key>", lambda e: "break")
+
+PERMITIDAS = "0123456789+-X÷.*x"
+
+CONVERSION = {
+    "*": "X",
+    "x": "X",
+    "/": "÷",
+}
+
+
+def tecleo(event):
+
+    global text_label
+
+    # Teclas de control permitidas
+    if event.keysym == "BackSpace":
+        return
+
+    char = event.char
+    if char == "":
+        return "break"  # Shift, Ctrl, flechas, etc.
+
+    # Convertir si hace falta
+    char = CONVERSION.get(char, char)
+
+    if char in PERMITIDAS:
+        Presionar(char)
+
+    if event.keysym == "Return":
+
+        char = "="
+        Presionar(char)
+
+    return "break"  # siempre cancelamos la tecla original
+
 
 def Presionar(simbolo):
 
@@ -26,7 +62,12 @@ def Presionar(simbolo):
     label.delete(0, tk.END)
     text_label = fn.logica_precionar(simbolo)
     label.insert(0, text_label)
+    label.xview_moveto(1.0)
 
+
+label.bind("<Key>", tecleo)
+label.bind("<Return>", tecleo)
+label.bind("<<Paste>>", lambda e: "break")
 
 # Botones
 

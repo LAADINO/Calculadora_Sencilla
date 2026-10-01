@@ -77,7 +77,7 @@ def logica_precionar(simbolo):
 
     elif simbolo == "=":
 
-        print("Hola")
+        print("Hola me oprimieron")
 
     elif simbolo == ".":
         if simbolo in texto and texto[-1] not in operadores:
@@ -92,6 +92,7 @@ def logica_precionar(simbolo):
             texto += "0."
         elif texto[-1].isdigit():
             texto += simbolo
+
     elif simbolo == "0":
 
         if len(texto) != 0:
