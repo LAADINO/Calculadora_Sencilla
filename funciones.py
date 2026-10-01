@@ -1,11 +1,5 @@
 texto = ""
-operadores = ("÷", "X", "-", "+", "^")
-op_basicos = (
-    "÷",
-    "X",
-    "-",
-    "+",
-)
+operadores = ("÷", "X", "-", "+")
 
 
 def resolver():
@@ -37,12 +31,12 @@ def logica_precionar(simbolo):
 
         if len(texto) == 0:
             texto = "0√"
-        else:
+        elif texto[-1] not in ("%", "^"):
             texto += simbolo
 
     elif simbolo == "%":
-        if any(op in texto for op in op_basicos):
-            if texto[-1] in op_basicos or texto[-1].isdigit():
+        if any(op in texto for op in operadores):
+            if texto[-1] in operadores or texto[-1].isdigit():
                 texto += simbolo
 
     elif simbolo == "⌫":
@@ -73,7 +67,10 @@ def logica_precionar(simbolo):
 
     elif simbolo == "^":
 
-        validacion_operador(simbolo)
+        if len(texto) == 0:
+            texto = "0^"
+        elif texto[-1] not in ("%", "√"):
+            texto += simbolo
 
     elif simbolo == "=":
 
@@ -84,7 +81,7 @@ def logica_precionar(simbolo):
 
             print(f"hay un √√ en la ecuacion {texto}")
         else:
-            if texto.endswith(op_basicos):
+            if texto.endswith(operadores):
                 texto = texto[:-1]
 
             for i, c in enumerate(texto):
@@ -92,7 +89,7 @@ def logica_precionar(simbolo):
 
                     n1 = ""
 
-                    if texto[i - 1] in op_basicos:
+                    if texto[i - 1] in operadores:
                         op = texto[i - 1]
                         j = i - 2
                     else:
@@ -107,7 +104,7 @@ def logica_precionar(simbolo):
                     n1 = float(n1)
                     n1_aux = str(int(n1))
                     n1 = str(round((n1 ** (1 / 2)), 4))
-                    if op.endswith(op_basicos):
+                    if op.endswith(operadores):
                         texto = texto[:i] + n1_aux + op + n1 + texto[i + 1 :]
                     else:
                         texto = (
@@ -139,9 +136,9 @@ def logica_precionar(simbolo):
                 texto += simbolo
             elif texto[-1].isdigit() and texto[-1] != simbolo:
                 texto += simbolo
-            elif texto.endswith(("√", "%")):
+            elif texto.endswith(("√", "%", "^")):
                 for c in reversed(texto):
-                    if c.endswith(("√", "%")):
+                    if c.endswith(("√", "%", "^")):
                         texto = texto[:-1]
                     else:
                         break
@@ -157,9 +154,9 @@ def logica_precionar(simbolo):
     else:
 
         if len(texto) != 0:
-            if texto.endswith(("√", "%")):
+            if texto.endswith(("√", "%", "^")):
                 for c in reversed(texto):
-                    if c.endswith(("√", "%")):
+                    if c.endswith(("√", "%", "^")):
                         texto = texto[:-1]
                     else:
                         break
