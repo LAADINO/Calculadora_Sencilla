@@ -1,5 +1,5 @@
 texto = ""
-operadores = ("%", "÷", "X", "-", "+", "^")
+operadores = ("÷", "X", "-", "+", "^")
 op_basicos = (
     "÷",
     "X",
@@ -77,7 +77,11 @@ def logica_precionar(simbolo):
 
     elif simbolo == "=":
 
-        print("Hola me oprimieron")
+        if "√√" in texto:
+
+            print(f"hay un √√ en la ecuacion {texto}")
+        else:
+            print("no tiene √√")
 
     elif simbolo == ".":
         if simbolo in texto and texto[-1] not in operadores:
@@ -99,11 +103,11 @@ def logica_precionar(simbolo):
 
             if texto[-1] in operadores:
                 texto += simbolo
-            elif texto[-1].isdigit and texto[-1] != simbolo:
+            elif texto[-1].isdigit() and texto[-1] != simbolo:
                 texto += simbolo
-            elif texto[-1] == "√":
+            elif texto.endswith(("√", "%")):
                 for c in reversed(texto):
-                    if c == "√":
+                    if c.endswith(("√", "%")):
                         texto = texto[:-1]
                     else:
                         break
@@ -119,9 +123,9 @@ def logica_precionar(simbolo):
     else:
 
         if len(texto) != 0:
-            if texto[-1] == "√":
+            if texto.endswith(("√", "%")):
                 for c in reversed(texto):
-                    if c == "√":
+                    if c.endswith(("√", "%")):
                         texto = texto[:-1]
                     else:
                         break
